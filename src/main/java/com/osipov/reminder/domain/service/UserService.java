@@ -3,7 +3,7 @@ package com.osipov.reminder.domain.service;
 import com.osipov.reminder.domain.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {  // TODO: implements - before should write controller
+public interface UserService {
 
     User create(User user);
 

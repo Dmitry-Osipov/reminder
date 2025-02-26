@@ -18,6 +18,8 @@ spring:
           starttls:
             required: true
             enable: true
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
 
 token:
   signing:

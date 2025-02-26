@@ -27,6 +27,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     networks:
         - reminder_network
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy

@@ -1,6 +1,6 @@
 package com.osipov.reminder.web.security.service.impl;
 
-import com.osipov.reminder.domain.entity.User;
+import com.osipov.reminder.domain.entity.UserEntity;
 import com.osipov.reminder.web.security.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -30,7 +30,7 @@ public class SimpleJwtService implements JwtService {
     @Override
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        if (userDetails instanceof User customUserDetails) {
+        if (userDetails instanceof UserEntity customUserDetails) {
             claims.put("id", customUserDetails.getId());
             claims.put("email", customUserDetails.getEmail());
             claims.put("role", customUserDetails.getRole());

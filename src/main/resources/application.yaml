@@ -1,11 +1,13 @@
 spring:
   application:
     name: reminder
+
   datasource:
     url: ${JDBC_URL:jdbc:postgresql://localhost:5432/docker}
     username: ${JDBC_USERNAME:username}
     password: ${JDBC_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
+
   mail:
     host: ${MAIL_HOST:smtp.mail.ru}
     port: ${MAIL_PORT:587}
@@ -18,8 +20,13 @@ spring:
           starttls:
             required: true
             enable: true
+
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+
+  data:
+    rest:
+      base-path: /reminder/api/v1
 
 token:
   signing:

@@ -1,22 +1,22 @@
 package com.osipov.reminder.domain.service;
 
-import com.osipov.reminder.domain.entity.User;
+import com.osipov.reminder.domain.entity.UserEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService {
 
-    User create(User user);
+    UserEntity create(UserEntity user);
 
-    User update(User user);
+    UserEntity update(UserEntity user);
 
     void deleteByUsername(String username);
 
-    User getByUsername(String username);
+    UserEntity getByUsername(String username);
 
-    User updatePassword(String username, String oldPassword, String newPassword);
+    UserEntity updatePassword(String username, String oldPassword, String newPassword);
 
     UserDetailsService userDetailsService();
 
-    User getByResetPasswordToken(String token);
+    UserEntity getByResetPasswordToken(String token);
 
 }

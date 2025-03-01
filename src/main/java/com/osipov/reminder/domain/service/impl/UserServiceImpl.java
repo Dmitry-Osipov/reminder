@@ -1,44 +1,52 @@
 package com.osipov.reminder.domain.service.impl;
 
-import com.osipov.reminder.domain.entity.User;
+import com.osipov.reminder.domain.entity.UserEntity;
 import com.osipov.reminder.domain.service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserServiceImpl implements UserService {  // TODO: write
+public class UserServiceImpl implements UserService {
 
     @Override
-    public User create(User user) {
+    @Transactional
+    public UserEntity create(UserEntity user) {
         return null;
     }
 
     @Override
-    public User update(User user) {
+    @Transactional
+    public UserEntity update(UserEntity user) {
         return null;
     }
 
     @Override
+    @Transactional
     public void deleteByUsername(String username) {
     }
 
     @Override
-    public User getByUsername(String username) {
+    @Transactional(readOnly = true)
+    public UserEntity getByUsername(String username) {
         return null;
     }
 
     @Override
-    public User updatePassword(String username, String oldPassword, String newPassword) {
+    @Transactional
+    public UserEntity updatePassword(String username, String oldPassword, String newPassword) {
         return null;
     }
 
     @Override
+    @Transactional
     public UserDetailsService userDetailsService() {
-        return null;
+        return this::getByUsername;
     }
 
     @Override
-    public User getByResetPasswordToken(String token) {
+    @Transactional(readOnly = true)
+    public UserEntity getByResetPasswordToken(String token) {
         return null;
     }
 

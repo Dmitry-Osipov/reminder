@@ -27,7 +27,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     env_file:
       - path: ./spring.env
-      required: true
+        required: true
     networks:
         - reminder_network
     restart: unless-stopped

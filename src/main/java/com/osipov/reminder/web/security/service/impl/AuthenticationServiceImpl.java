@@ -1,11 +1,16 @@
 package com.osipov.reminder.web.security.service.impl;
 
-import com.osipov.reminder.domain.entity.UserEntity;
-import com.osipov.reminder.domain.enums.Role;
-import com.osipov.reminder.domain.exceptions.ResetPasswordTokenException;
-import com.osipov.reminder.web.security.service.AuthenticationService;
+import com.osipov.reminder.data.entity.UserEntity;
+import com.osipov.reminder.domain.dto.auth.ForgotPasswordRequest;
+import com.osipov.reminder.domain.dto.auth.JwtAuthResponse;
+import com.osipov.reminder.domain.dto.auth.ResetPasswordRequest;
+import com.osipov.reminder.domain.dto.auth.SignInRequest;
+import com.osipov.reminder.domain.dto.user.UserCreateDto;
 import com.osipov.reminder.domain.service.EmailService;
 import com.osipov.reminder.domain.service.UserService;
+import com.osipov.reminder.mapper.AuthMapper;
+import com.osipov.reminder.mapper.UserMapper;
+import com.osipov.reminder.web.security.service.AuthenticationService;
 import com.osipov.reminder.web.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -25,59 +29,38 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final AuthMapper mapper;
+    private final UserMapper userMapper;
 
     @Override
-    public String signUp(UserEntity user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.ROLE_USER);
+    public JwtAuthResponse signUp(UserCreateDto dto) {
+        UserEntity user = mapper.toEntity(dto, passwordEncoder.encode(dto.getPassword()));
         userService.create(user);
-        return jwtService.generateToken(user);
+        return mapper.convert(jwtService.generateToken(user));
     }
 
     @Override
-    public String signIn(UserEntity user) {
+    public JwtAuthResponse signIn(SignInRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        UserDetails currentUser = userService.userDetailsService().loadUserByUsername(user.getUsername());
-        return jwtService.generateToken(currentUser);
+        UserDetails currentUser = userService.userDetailsService().loadUserByUsername(request.getUsername());
+        return mapper.convert(jwtService.generateToken(currentUser));
     }
 
     @Override
-    public void sendResetPasswordEmail(String email, String username) {
-        UserEntity user = createPasswordResetToken(username);
-        emailService.sendResetPasswordEmail(email, user.getResetPasswordToken());
+    public void sendResetPasswordEmail(ForgotPasswordRequest request) {
+        UserEntity user = userService.getEntityByUsername(request.getUsername());
+        mapper.fillResetPasswordData(user, UUID.randomUUID().toString());
+        user = userService.update(user);
+        emailService.sendResetPasswordEmail(request.getEmail(), user.getResetPasswordToken());
     }
 
     @Override
-    public UserEntity getByResetPasswordToken(String token) {
+    public void updatePassword(String token, ResetPasswordRequest request) {
         UserEntity user = userService.getByResetPasswordToken(token);
-        return validateResetPasswordToken(user);
-    }
-
-    @Override
-    public void updatePassword(String token, String newPassword) {
-        UserEntity user = userService.getByResetPasswordToken(token);
-        user.setResetPasswordToken(null);  // TODO: mapper
-        user.setResetPasswordTokenExpiryDate(null);
-        user.setPassword(passwordEncoder.encode(newPassword));
+        mapper.dropResetPasswordData(user, passwordEncoder.encode(request.getPassword()));
         userService.update(user);
-    }
-
-    private UserEntity createPasswordResetToken(String username) {
-        UserEntity user = userService.getByUsername(username);
-        String token = UUID.randomUUID().toString();
-        user.setResetPasswordToken(token);  // TODO: mapper
-        user.setResetPasswordTokenExpiryDate(new Date(System.currentTimeMillis() + 3600 * 1000));
-        return userService.update(user);
-    }
-
-    private static UserEntity validateResetPasswordToken(UserEntity user) {
-        if (user.getResetPasswordTokenExpiryDate().before(new Date())) {
-            throw new ResetPasswordTokenException("Token expired");
-        }
-
-        return user;
     }
 
 }

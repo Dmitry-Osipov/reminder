@@ -5,7 +5,16 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
 
-    <include file="20250225/create_users_table.xml" relativeToChangelogFile="true"/>
-    <include file="20250302/alter_users_table_add_version_column.xml" relativeToChangelogFile="true"/>
+    <changeSet id="alter_users_table_add_version_column" author="Dmitry Osipov">
+
+        <addColumn tableName="users">
+
+            <column name="version" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+
+        </addColumn>
+
+    </changeSet>
 
 </databaseChangeLog>

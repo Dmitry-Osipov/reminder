@@ -1,6 +1,6 @@
-package com.osipov.reminder.domain.entity;
+package com.osipov.reminder.data.entity;
 
-import com.osipov.reminder.domain.enums.Role;
+import com.osipov.reminder.data.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,7 +9,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +24,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor

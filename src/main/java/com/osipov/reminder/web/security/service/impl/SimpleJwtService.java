@@ -1,6 +1,6 @@
 package com.osipov.reminder.web.security.service.impl;
 
-import com.osipov.reminder.domain.entity.UserEntity;
+import com.osipov.reminder.data.entity.UserEntity;
 import com.osipov.reminder.web.security.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

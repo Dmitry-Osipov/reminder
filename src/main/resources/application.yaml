@@ -31,3 +31,9 @@ spring:
 token:
   signing:
     key: ${JWT_KEY:12A12E5F1C1E1A2D1B1F2D784E1A1B221D6F212D1F2E2C1A112D215A12122212}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v1/api-docs

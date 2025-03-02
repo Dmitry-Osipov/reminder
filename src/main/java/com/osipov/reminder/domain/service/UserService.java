@@ -1,6 +1,8 @@
 package com.osipov.reminder.domain.service;
 
-import com.osipov.reminder.domain.entity.UserEntity;
+import com.osipov.reminder.data.entity.UserEntity;
+import com.osipov.reminder.domain.dto.auth.ChangePasswordRequest;
+import com.osipov.reminder.domain.dto.user.UserResponseDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService {
@@ -9,11 +11,11 @@ public interface UserService {
 
     UserEntity update(UserEntity user);
 
-    void deleteByUsername(String username);
+    UserEntity getEntityByUsername(String username);
 
-    UserEntity getByUsername(String username);
+    UserResponseDto getByUsername(String username);
 
-    UserEntity updatePassword(String username, String oldPassword, String newPassword);
+    void updatePassword(ChangePasswordRequest request);
 
     UserDetailsService userDetailsService();
 

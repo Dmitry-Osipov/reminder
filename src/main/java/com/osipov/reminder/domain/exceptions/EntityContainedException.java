@@ -3,5 +3,5 @@ package com.osipov.reminder.domain.exceptions;
 import lombok.experimental.StandardException;
 
 @StandardException
-public class ResetPasswordTokenException extends RuntimeException {
+public class EntityContainedException extends RuntimeException {
 }

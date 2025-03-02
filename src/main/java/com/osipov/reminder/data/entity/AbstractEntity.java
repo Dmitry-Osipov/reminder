@@ -1,4 +1,4 @@
-package com.osipov.reminder.domain.entity;
+package com.osipov.reminder.data.entity;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +20,6 @@ public abstract class AbstractEntity implements Serializable {
     private Long id;
 
     @Version
-    private Long version;  // TODO: внести поле в файл миграции
+    private Long version;
 
 }

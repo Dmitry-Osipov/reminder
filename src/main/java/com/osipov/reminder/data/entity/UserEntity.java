@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,12 +23,13 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@ToString(callSuper = true, exclude = {"password", "resetPasswordToken", "resetPasswordTokenExpiryDate"})
+@EqualsAndHashCode(callSuper = true, exclude = {"password", "resetPasswordToken", "resetPasswordTokenExpiryDate"})
 public class UserEntity extends AbstractEntity implements UserDetails {
 
     @Column(name = "username", unique = true, nullable = false)

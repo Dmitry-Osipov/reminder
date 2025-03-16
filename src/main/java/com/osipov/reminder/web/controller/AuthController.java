@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/password/forgot")
-    @Operation(summary = "Метод для отправки пользователю ссылку на восстановление пароля")
+    @Operation(summary = "Метод для отправки пользователю ссылку на восстановление пароля по почте")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void forgotPassword(@RequestBody @Valid ForgotPasswordRequest request) {
         service.sendResetPasswordEmail(request);

@@ -9,7 +9,6 @@ import com.osipov.reminder.domain.dto.user.UserCreateDto;
 import com.osipov.reminder.domain.service.EmailService;
 import com.osipov.reminder.domain.service.UserService;
 import com.osipov.reminder.mapper.AuthMapper;
-import com.osipov.reminder.mapper.UserMapper;
 import com.osipov.reminder.web.security.service.AuthenticationService;
 import com.osipov.reminder.web.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final AuthMapper mapper;
-    private final UserMapper userMapper;
 
     @Override
     public JwtAuthResponse signUp(UserCreateDto dto) {
